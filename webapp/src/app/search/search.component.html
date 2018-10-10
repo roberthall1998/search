@@ -1,0 +1,105 @@
+<div class="page">
+
+    <!-- The search bar -->
+    <div class="search">
+
+        <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+            <div class="searchBar">
+                <a href="/"><img src="https://image.ibb.co/cywObe/logo_2.png" id="logo"/></a>
+                <input type="text" id="textBox" name="textBox" placeholder="What are you looking for?" [(ngModel)]="value" />
+                <button type="submit" id="searchIcon">
+          <i id="filtersubmit" class="fa fa-search"></i>
+          </button>
+            </div>
+        </form>
+
+        <div class="filter">
+            <label><b>Filter Folder:</b></label>
+            <input id="evidence" name="evidence" type="checkbox" (change)="updateCount()" [(ngModel)]="evidence">
+            <label for="evidence">Evidence ({{ (data.docs | myfilter:'evidence')?.length }})  </label>
+            <input id="response" name="response" type="checkbox" (change)="updateCount()" [(ngModel)]="response">
+            <label for="response">Response ({{ (data.docs | myfilter:'response')?.length }})  </label>
+            <input id="cv" name="cv" type="checkbox" (change)="updateCount()" [(ngModel)]="cv">
+            <label for="cv">CV's ({{ (data.docs | myfilter:'cv')?.length }})</label>
+          </div>
+
+    <!-- The right hand column with the search results -->
+    <div class="searchColumn">
+      
+      <!-- The number of results and header of result list -->
+    <div class="resultsCounter">
+        <div *ngIf="count > 1"> {{count}} Results found </div>
+        <div *ngIf="count == 1"> 1 Result found </div>
+        <div *ngIf="count == 0"> No Results found </div>
+    </div>
+
+        <!-- The search results displayed with no filters-->
+        <div class="searchResults">
+            <div *ngIf="!evidence && !response && !cv">
+                <div class="resultBody" *ngFor="let result of data.docs">
+                    <b>Title:</b> {{result.title}}<br>
+                    <b>Document Path: </b><a href="{{result.id}}">{{result.id}}</a><br>
+                    <div class="resultContent">
+                        <div *ngFor="let sentence of result.content">
+                            <div [innerHTML]="sentence"></div>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- The search results displayed with evidence filter -->
+        <div class="searchResults">
+            <div *ngIf="evidence == true">
+                <div class="resultBody" *ngFor="let result of data.docs | myfilter:'evidence'">
+                    <b>Title:</b> {{result.title}}<br>
+                    <b>Document Path: </b><a href="{{result.id}}">{{result.id}}</a><br>
+                    <div class="resultContent">
+                        <div *ngFor="let sentence of result.content">
+                            <div [innerHTML]="sentence"></div>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- The search results displayed with response filter-->
+        <div class="searchResults">
+            <div *ngIf="response == true">
+                <div class="resultBody" *ngFor="let result of data.docs | myfilter:'response'">
+                    <b>Title:</b> {{result.title}}<br>
+                    <b>Document Path: </b><a href="{{result.id}}">{{result.id}}</a><br>
+                    <div class="resultContent">
+                        <div *ngFor="let sentence of result.content">
+                            <div [innerHTML]="sentence"></div>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- The search results displayed with cv filter-->
+        <div class="searchResults">
+            <div *ngIf="cv == true">
+                <div class="resultBody" *ngFor="let result of data.docs | myfilter:'cv'">
+                    <b>Title:</b> {{result.title}}<br>
+                    <b>Document Path: </b><a href="{{result.id}}">{{result.id}}</a><br>
+                    <div class="resultContent">
+                        <div *ngFor="let sentence of result.content">
+                            <div [innerHTML]="sentence"></div>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- The footer of the search results -->
+        <div *ngIf="data.docs.length>0" class="resultsCounter">
+            End of Results
+        </div>
+    </div>
+</div>

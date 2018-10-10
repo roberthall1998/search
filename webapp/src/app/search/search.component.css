@@ -1,0 +1,84 @@
+.page{
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 10pt; 
+}
+
+.resultBody {
+    border-style: solid;
+    border-width: 1px;
+    padding: 20px;
+    margin: 10px;
+}
+
+.searchBar{
+    padding-top: 30px;
+    padding-bottom:50px;
+}
+
+#textBox{
+    width: 50%;
+    height: 30px;
+    border: 1px solid #999;
+    font-size: 1em;
+    padding: 0.4em;
+    vertical-align: middle;
+    position: relative;
+}
+  
+#logo {
+   width: 25%;
+   vertical-align: middle;
+   border-style: none;
+   padding-left: 10%;
+}
+  
+#searchIcon{
+   color: #192f56;
+   position: relative;
+   z-index: 1;
+   left: -40px;
+   top: 1px;
+   height: 40px;
+   width: 40px;
+   font-size: 1.00em;
+   border: none;
+   background: transparent;
+   outline: none;
+}
+  
+.resultContent{
+    border: 1px solid #999;
+    margin-top: 10px;
+    padding: 10px;
+    background: lightgrey;
+}
+
+.numResults{
+    text-align: center;
+    background: #192f56;
+    margin:10px;
+    padding:10px;
+    color: white;
+}
+
+.resultsCounter{
+    background: #192f56;
+    color: white;
+    margin: 10px;
+    text-align: center;
+    padding: 5px;
+}
+
+.filter{
+    border-top: #192f56 solid 1pt;
+    color: #192f56;
+    text-align: center;
+    padding-top: 15px;
+    margin: 10px;
+}
+
+.filter label{
+    padding-right: 10px;
+    margin-bottom: 10px;
+    font-size: 12pt;
+}
