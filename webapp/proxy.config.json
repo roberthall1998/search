@@ -1,7 +1,0 @@
-{
-    "/solr": {
-        "target": "http://localhost:8983",
-        "secure": false,
-        "pathRewrite": {"^/solr" : ""}
-    }
-}
