@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {Document} from './document.model';
+import { Document } from './document.model';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +29,7 @@ export class DataService {
     //empty doc array
     this.docs = [];
     //send API request with new keyword
-    const url = 'http://thesearch.kainos.com:8984/solr/search/select?q=' + localKeyword;
+    const url = 'http://localhost:8983/solr/search/select?q=' + localKeyword;
 
     //parse response and push each into docs array
     this.http.get(url + "&rows=100").subscribe((data: any) => {

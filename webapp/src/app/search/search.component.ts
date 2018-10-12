@@ -30,6 +30,9 @@ export class SearchComponent implements OnInit {
   }
 
   onSubmit(form:NgForm){
+    this.evidence = false;
+    this.response = false;
+    this.cv = false;
     this.formValue = form.value.textBox;
     this.data.updateSearch(this.formValue);
     this.updateCount();

@@ -28,9 +28,10 @@
       
       <!-- The number of results and header of result list -->
     <div class="resultsCounter">
-        <div *ngIf="count > 1"> {{count}} Results found </div>
+        <div *ngIf="count > 1"> {{count}} Results found</div>
         <div *ngIf="count == 1"> 1 Result found </div>
-        <div *ngIf="count == 0"> No Results found </div>
+        <div *ngIf="count == 0 && data.docs.length > 0"> {{data.docs.length}} Results found</div>
+        <div *ngIf="count == 0 && data.docs.length == 0"> No Results found </div>
     </div>
 
         <!-- The search results displayed with no filters-->
