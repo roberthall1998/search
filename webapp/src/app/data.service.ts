@@ -31,7 +31,10 @@ export class DataService {
     //parse response and push each into docs array
     this.http.get(url + "&rows=10000").subscribe((data: any) => {
       for(let doc of data.response.docs){
-        this.docs.push(new Document(doc.id, doc.title, this.parseContent(doc.content, keyword)));
+        var content = this.parseContent(doc.content, keyword);
+        if(content.length>0){
+          this.docs.push(new Document(doc.id, doc.title, content));
+        }
       }
     });
   }
