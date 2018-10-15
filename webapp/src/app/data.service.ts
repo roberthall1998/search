@@ -29,10 +29,10 @@ export class DataService {
     //empty doc array
     this.docs = [];
     //send API request with new keyword
-    const url = 'http://localhost:8983/solr/search/select?q=' + localKeyword;
+    const url = 'http://0.0.0.0:8983/solr/search/select?q=' + localKeyword;
 
     //parse response and push each into docs array
-    this.http.get(url + "&rows=100").subscribe((data: any) => {
+    this.http.get(url + "&rows=10000").subscribe((data: any) => {
       for(let doc of data.response.docs){
         this.docs.push(new Document(doc.id, doc.title, this.parseContent(doc.content, keyword)));
       }

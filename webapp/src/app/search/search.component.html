@@ -16,22 +16,29 @@
         <div class="filter">
             <label><b>Filter Folder:</b></label>
             <input id="evidence" name="evidence" type="checkbox" (change)="updateCount()" [(ngModel)]="evidence">
-            <label for="evidence">Evidence ({{ (data.docs | myfilter:'evidence')?.length }})  </label>
+            <label for="evidence">Evidence ({{ (data.docs | myfilter:'/Evidence Responses/')?.length }})  </label>
             <input id="response" name="response" type="checkbox" (change)="updateCount()" [(ngModel)]="response">
-            <label for="response">Response ({{ (data.docs | myfilter:'response')?.length }})  </label>
+            <label for="response">Response ({{ (data.docs | myfilter:'/Previous Responses/')?.length }})  </label>
             <input id="cv" name="cv" type="checkbox" (change)="updateCount()" [(ngModel)]="cv">
-            <label for="cv">CV's ({{ (data.docs | myfilter:'cv')?.length }})</label>
+            <label for="cv">CV's ({{ (data.docs | myfilter:'/CVs/')?.length }})</label>
           </div>
 
     <!-- The right hand column with the search results -->
     <div class="searchColumn">
       
       <!-- The number of results and header of result list -->
+    
     <div class="resultsCounter">
-        <div *ngIf="count > 1"> {{count}} Results found</div>
-        <div *ngIf="count == 1"> 1 Result found </div>
-        <div *ngIf="count == 0 && data.docs.length > 0"> {{data.docs.length}} Results found</div>
-        <div *ngIf="count == 0 && data.docs.length == 0"> No Results found </div>
+        <ng-container *ngIf="count == 0 && data.docs.length > 0; else second">{{data.docs.length}} Results found</ng-container>
+        <ng-template #second>
+        <ng-container *ngIf="count > 1; else third">{{count}} Results found</ng-container>
+        </ng-template>
+        <ng-template #third>
+        <ng-container *ngIf="count == 1; else forth">1 Result found</ng-container>
+        </ng-template>
+        <ng-template #forth>
+        <ng-container *ngIf="count == 0 && data.docs.length == 0">No Results found </ng-container>
+        </ng-template>
     </div>
 
         <!-- The search results displayed with no filters-->
@@ -53,7 +60,7 @@
         <!-- The search results displayed with evidence filter -->
         <div class="searchResults">
             <div *ngIf="evidence == true">
-                <div class="resultBody" *ngFor="let result of data.docs | myfilter:'evidence'">
+                <div class="resultBody" *ngFor="let result of data.docs | myfilter:'/Evidence Responses/'">
                     <b>Title:</b> {{result.title}}<br>
                     <b>Document Path: </b><a href="{{result.id}}">{{result.id}}</a><br>
                     <div class="resultContent">
@@ -69,7 +76,7 @@
         <!-- The search results displayed with response filter-->
         <div class="searchResults">
             <div *ngIf="response == true">
-                <div class="resultBody" *ngFor="let result of data.docs | myfilter:'response'">
+                <div class="resultBody" *ngFor="let result of data.docs | myfilter:'/Previous Responses/'">
                     <b>Title:</b> {{result.title}}<br>
                     <b>Document Path: </b><a href="{{result.id}}">{{result.id}}</a><br>
                     <div class="resultContent">
@@ -85,7 +92,7 @@
         <!-- The search results displayed with cv filter-->
         <div class="searchResults">
             <div *ngIf="cv == true">
-                <div class="resultBody" *ngFor="let result of data.docs | myfilter:'cv'">
+                <div class="resultBody" *ngFor="let result of data.docs | myfilter:'/CVs/'">
                     <b>Title:</b> {{result.title}}<br>
                     <b>Document Path: </b><a href="{{result.id}}">{{result.id}}</a><br>
                     <div class="resultContent">

@@ -46,15 +46,15 @@ export class SearchComponent implements OnInit {
     }
 
     if(this.evidence){
-      let ev = new MyFilterPipe().transform(this.data.docs, 'evidence');
+      let ev = new MyFilterPipe().transform(this.data.docs, '/Evidence Responses/');
       num += ev.length;
     }
     if(this.response){
-      let ev = new MyFilterPipe().transform(this.data.docs, 'response');
+      let ev = new MyFilterPipe().transform(this.data.docs, '/Previous Responses/');
       num += ev.length;
     }
     if(this.cv){
-      let ev = new MyFilterPipe().transform(this.data.docs, 'cv');
+      let ev = new MyFilterPipe().transform(this.data.docs, '/CVs/');
       num += ev.length;
     }
     this.count = num;
