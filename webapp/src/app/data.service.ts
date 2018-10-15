@@ -21,15 +21,12 @@ export class DataService {
     //if there are no params select all
     if(!localKeyword){
       localKeyword = '*:*';
-    }else{
-      //add quotes to query with spaces
-      if(this.hasWhiteSpace(localKeyword))
-      localKeyword = "\"" + localKeyword + "\"";
     }
+
     //empty doc array
     this.docs = [];
     //send API request with new keyword
-    const url = 'http://0.0.0.0:8983/solr/search/select?q=' + localKeyword;
+    const url = 'http://0.0.0.0:8984/solr/search/select?q=' + localKeyword;
 
     //parse response and push each into docs array
     this.http.get(url + "&rows=10000").subscribe((data: any) => {
@@ -42,10 +39,8 @@ export class DataService {
 
   //Convert the content JSON object to a string and highlight the keyword
   public parseContent(content: string, query: string){
-    //Remove all sequential \n and \t from the content and then replace the single \n 
-    //If you want to add linebreaks uncomment below.
-    //var contentString = JSON.stringify(content).replace(/\\n\s*\\n/g, '').replace(/\\t./g, '').replace(/\\n/g, '<br>');
-    var contentString = JSON.stringify(content).replace(/\\n\s*\\n/g, '').replace(/\\t./g, '').replace(/\\n/g, '');
+    //Remove all \n and \t from the content
+    var contentString = JSON.stringify(content).replace(/\\t./g, '').replace(/\\n/g, '');
     //Remove the square brackets and speech marks at the start and end of the content
     var betterContentString = contentString.replace('[" ','').replace('"]','');
     //generate a list of search results.
@@ -74,7 +69,8 @@ export class DataService {
 
     //If the sentence contains the keyword add to array
     for(let i=0; i<split.length; i++){
-      if(this.contains(split[i], query)){
+      var localQuery = query.replace (/"/g,'');
+      if(this.contains(split[i], localQuery)){
         sentences.push(split[i]);
       }
     }
@@ -102,12 +98,4 @@ export class DataService {
     });
     
   }
-
-  //True if spaces, false if not
-  public hasWhiteSpace(s) {
-    return s.indexOf(' ') >= 0;
-  }
-
-  
-
 }
