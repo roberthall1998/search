@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Document } from './document.model';
+import { Content } from '@angular/compiler/src/render3/r3_ast';
+import { controlNameBinding } from '@angular/forms/src/directives/reactive_directives/form_control_name';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +28,8 @@ export class DataService {
     //empty doc array
     this.docs = [];
     //send API request with new keyword
-    const url = 'http://0.0.0.0:8984/solr/search/select?q=' + localKeyword;
+    const url = 'http://0.0.0.0:8984/solr/search/select?q=' + localKeyword.replace(' ','%20');
+    console.log(url);
 
     //parse response and push each into docs array
     this.http.get(url + "&rows=10000").subscribe((data: any) => {
@@ -60,24 +63,30 @@ export class DataService {
     for(let i=0; i<results.length; i++){
       list[i] = this.highlight(results[i],query);
     }
-    
     return list;
   }
 
   public searchResults(content: string, query: string){
     var sentences: string[] = [];
+    var queries: string[] = [];
+    //If speech marks at start and end 
+    if(query.charAt(0) == '"' && query.charAt(query.length-1) == '"'){
+      queries.push(query.replace (/"/g,''));
+      console.log('quotes detected');
+    }else{
+      queries = query.split(' ');
+      console.log('no quotes splitting string');
+    }
 
     //Split the paragraph at each full stop
     var split = content.split('.');
 
-    //If the sentence contains the keyword add to array
+    //If the sentence contains any of the keywords add to array
     for(let i=0; i<split.length; i++){
-      var localQuery = query.replace (/"/g,'');
-      if(this.contains(split[i], localQuery)){
+      if(this.containsQueries(split[i], queries)){
         sentences.push(split[i]);
       }
     }
-
     //return array
     return sentences.slice(0,5);
   }
@@ -86,6 +95,15 @@ export class DataService {
   public contains(sentence: string, query: string){
     if(sentence.toLowerCase().search(query.toLowerCase())>-1){
       return true;
+    }
+    return false;
+  }
+
+  public containsQueries(s:string, queries:string[]){
+    for(let q of queries){
+      if(this.contains(s, q)){
+        return true;
+      }
     }
     return false;
   }
