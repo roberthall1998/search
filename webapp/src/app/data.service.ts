@@ -31,7 +31,7 @@ export class DataService {
     this.docs = [];
     this.empty = false;
     //send API request with new keyword
-    const url = 'http://0.0.0.0:8984/solr/search/select?q=' + localKeyword.replace(' ','%20');
+    const url = 'http://thesearch.kainos.com:8984/solr/search/select?q=' + localKeyword.replace(' ','%20');
     console.log(url);
 
     //parse response and push each into docs array
@@ -39,7 +39,7 @@ export class DataService {
       for(let doc of data.response.docs){
         var content = this.parseContent(doc.content, keyword);
         if(content.length>0){
-          this.docs.push(new Document(doc.id, doc.title, content));
+          this.docs.push(new Document(this.parseID(doc.id), doc.title, content));
         }
       }
       if(this.docs.length == 0){
@@ -47,7 +47,12 @@ export class DataService {
       }
     });
   }
-
+  
+  public parseID(id: string){
+    var start = id.indexOf('/docs/');
+    var path = 'https://kainossoftwareltd.sharepoint.com/sites/presales/gov/Collateral1'+id.substring(start+5,id.length);
+    return path;
+  }
 
   //Convert the content JSON object to a string and highlight the keyword
   public parseContent(content: string, query: string){
