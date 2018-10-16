@@ -16,6 +16,8 @@ export class DataService {
     this.updateSearch(undefined);
   }
 
+  empty:boolean = false;
+
   //Called on each search request
   updateSearch(keyword: string){
     var localKeyword = keyword;
@@ -27,6 +29,7 @@ export class DataService {
 
     //empty doc array
     this.docs = [];
+    this.empty = false;
     //send API request with new keyword
     const url = 'http://0.0.0.0:8984/solr/search/select?q=' + localKeyword.replace(' ','%20');
     console.log(url);
@@ -38,6 +41,9 @@ export class DataService {
         if(content.length>0){
           this.docs.push(new Document(doc.id, doc.title, content));
         }
+      }
+      if(this.docs.length == 0){
+        this.empty = true;
       }
     });
   }

@@ -37,7 +37,10 @@
         <ng-container *ngIf="count == 1; else forth">1 Result found</ng-container>
         </ng-template>
         <ng-template #forth>
-        <ng-container *ngIf="count == 0 && data.docs.length == 0">Loading Results </ng-container>
+        <ng-container *ngIf="count == 0 && data.docs.length == 0 && data.empty == false; else fifth">Loading Results </ng-container>
+        </ng-template>
+        <ng-template #fifth>
+        <ng-container *ngIf="count == 0 && data.docs.length == 0 && data.empty == true; else fifth">No Results Found</ng-container>
         </ng-template>
     </div>
 
