@@ -54,9 +54,9 @@ export class DataService {
       for(let doc of data.response.docs){
         var id = this.parseID(doc.id);
         var content = this.parseContent(doc.content, queries);
-        
+        if(content.length>0){
           this.docs.push(new Document(id, doc.title, content));
-        
+        }
       }
 
       //indicate loading has finished
